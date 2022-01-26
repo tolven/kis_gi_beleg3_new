@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+    <h1>{{ patient.user_print }}</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Firstname</th>
+                    <th scope="col">Lastname</th>
+                    <th scope="col">Birthdate</th>
+                    <th scope="col">Attending Doctor</th>
+                    <th scope="col">Section</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{ patient.title }}</td>
+                    <td>{{ patient.firstname }}</td>
+                    <td>{{ patient.lastname }}</td>
+                    <td></td>
+                    <td>{{ patient.attending_doctor.user_print }}</td>
+                    <td>{{ patient.attending_doctor.role_to_name }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

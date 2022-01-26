@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% block page_content %}
+    <h1>Anmeldung</h1>
+    <div class="row">
+        {% for user in user %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.user_print }}</h5>
+                    <p class="card-text">{{ user.role_to_name }}</p>
+                    <a href="#"
+                       class="btn btn-primary">
+                        Select
+                    </a>
+                    <a href="{% url 'kis_pro_deleteuser' user.pk %}"
+                       class="btn btn-danger">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <h1>Ärzte</h1>
+    <div class="row">
+        {% for doc in docs %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ doc.user_print }}</h5>
+                    <p class="card-text">{{ doc.role_to_name }}</p>
+                    <a href="#"
+                       class="btn btn-primary">
+                        Select
+                    </a>
+                    <a href="{% url 'kis_pro_deleteuser' doc.pk %}"
+                       class="btn btn-danger">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <h1>Neuer Mitarbeiter</h1>
+    <div class="row">
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title">New User</h5>
+                <p>Create a new user!</p>
+                <a href="{% url 'kis_pro_newuser' %}"
+                   class="btn btn-primary">
+                    Add
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block page_content %}
+
+    <div class="card">
+        <div class="card-header">
+            New Personal
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <h5>Title</h5>
+                {{ form.title }}
+                <h5>Firstname</h5>
+                {{ form.firstname }}
+                <h5>Lastname</h5>
+                {{ form.lastname }}
+                <h5>Role</h5>
+                {{ form.role }}
+                <button class="btn btn-primary"
+                        type="submit">Submit
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

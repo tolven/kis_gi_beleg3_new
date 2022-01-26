@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    <h1>Registration</h1>
+
+    <div class="row">
+        {% for patient in kis_patient %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{ patient.user_print }}</h5>
+                    <p class="card-text">{{ patient.birthday }}</p>
+                    <a href="{% url 'kis_pro_detail' patient.pk %}"
+                       class="btn btn-primary">
+                        Select
+                    </a>
+                    <a href="#"
+                       class="btn btn-danger">
+                        Delete
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+        <div class="card mb-2">
+            <div class="card-body">
+                <h5 class="card-title">New patient</h5>
+                <p>Create a new user!</p>
+                <a href="{% url 'kis_pro_newpatient' %}"
+                   class="btn btn-primary">
+                    Add
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
