@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ user.user_print }}</h5>
                     <p class="card-text">{{ user.role_to_name }}</p>
-                    <a href="#"
+                    <a href="{% url 'kis_pro_registration' %}"
                        class="btn btn-primary">
                         Select
                     </a>
@@ -27,7 +27,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ doc.user_print }}</h5>
                     <p class="card-text">{{ doc.role_to_name }}</p>
-                    <a href="#"
+                    <a href="{% url doc.role_to_url doc.pk %}"
                        class="btn btn-primary">
                         Select
                     </a>

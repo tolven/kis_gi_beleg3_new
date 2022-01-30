@@ -7,8 +7,9 @@ urlpatterns = [
     path('new/', views.kis_pro_newuser, name="kis_pro_newuser"),
     path("<int:pk>/delete", views.kis_pro_deleteuser, name="kis_pro_deleteuser"),
     path("reg", views.kis_pro_registration, name="kis_pro_registration"),
-    path("pathology", views.kis_pro_pathology, name="kis_pro_pathology"),
-    path("surgery", views.kis_pro_surgery, name="kis_pro_surgery"),
-    path("radiology", views.kis_pro_radiology, name="kis_pro_radiology"),
-    path('newpatient/', views.kis_pro_newpatient, name="kis_pro_newpatient"),
+    path("pathology/<int:pk>", views.kis_pro_pathology, name="kis_pro_pathology"),
+    path("surgery/<int:pk>", views.kis_pro_surgery, name="kis_pro_surgery"),
+    path("radiology/<int:pk>", views.kis_pro_radiology, name="kis_pro_radiology"),
+    path('newpatient', views.kis_pro_newpatient, name="kis_pro_newpatient"),
+    path('<int:pk>/newcase', views.kis_pro_newcase, name="kis_pro_newcase"),
 ]

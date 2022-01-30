@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
@@ -13,6 +15,9 @@ class Person(models.Model):
 
     def get_all_objects(self):
         return self.objects.all()
+
+    def __str__(self):
+        return self.user_print()
 
     class Meta:
         abstract = True
@@ -48,13 +53,23 @@ class Doctor(Person):
     def role_to_name(self):
         return self.role.print_role_name()
 
+    def role_to_url(self):
+        return 'kis_pro_' + self.role_to_name().lower()
+
     def show_cases(self):
         return self.cases
+
+    def __str__(self):
+        return super().__str__() + ' ' + self.role_to_name()
 
 
 class Patient(Person):
     birthdate = models.DateField()
     attending_doctor = models.ManyToManyField(Doctor)
+
+    def getAge(self):
+        today = date.today()
+        return today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
 
 
 class Cases(models.Model):
@@ -68,3 +83,4 @@ class TNM(Cases):
     nodes = models.CharField(max_length=2)
     metastases = models.CharField(max_length=2)
     report_text = models.TextField(max_length=500)
+

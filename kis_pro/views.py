@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms
-from kis_pro.models import User, Patient, Doctor
+from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms, NewCaseForms
+from kis_pro.models import User, Patient, Doctor, Cases
 
 
 def kis_pro_index(request):
@@ -20,8 +20,10 @@ def kis_pro_index(request):
 
 def kis_pro_detail(request, pk):
     patient = Patient.objects.get(pk=pk)
+    cases = Cases.objects.filter(patient=patient)
     context = {
-        'patient': patient
+        'patient': patient,
+        'cases': cases
     }
     return render(request, 'kis_pro_detail.html', context)
 
@@ -70,25 +72,47 @@ def kis_pro_registration(request):
     return render(request, 'kis_pro_registration.html', context)
 
 
-def kis_pro_pathology(request):
-    patient = Patient.objects.all()
+def kis_pro_pathology(request, pk):
+    doc = Doctor.objects.get(pk=pk)
+    cases = Cases.objects.filter(doctor=doc)
     context = {
-        'kis_patient': patient
+        'cases': cases
     }
     return render(request, 'kis_pro_pathology.html', context)
 
 
-def kis_pro_radiology(request):
-    patient = Patient.objects.all()
+def kis_pro_radiology(request, pk):
+    doc = Doctor.objects.get(pk=pk)
+    cases = Cases.objects.filter(doctor=doc)
     context = {
-        'kis_patient': patient
+        'cases': cases
     }
     return render(request, 'kis_pro_radiology.html', context)
 
 
-def kis_pro_surgery(request):
-    patient = Patient.objects.all()
+def kis_pro_surgery(request, pk):
+    doc = Doctor.objects.get(pk=pk)
+    cases = Cases.objects.filter(doctor=doc)
     context = {
-        'kis_patient': patient
+        'cases': cases
     }
     return render(request, 'kis_pro_surgery.html', context)
+
+
+def kis_pro_newcase(request, pk):
+    if request.method == 'POST':
+        form = NewCaseForms(request.POST)
+        patient = Patient.objects.get(pk=pk)
+        if form.is_valid():
+            x = form.save(commit=False)
+            x.patient = patient
+            x.save()
+            return redirect('kis_pro_registration')
+    else:
+        form = NewCaseForms()
+        patient = Patient.objects.get(pk=pk)
+        context = {
+            'patient': patient,
+            'form': form
+        }
+        return render(request, 'kis_pro_newcase.html', context)
