@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    {% if cases is not None %}
+        <div class="row">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-header">Noch kein Befund vorhanden! </h5>
+                    <a href="{% url 'kis_pro_new_tnm' cases.pk %}"
+                       class="btn btn-primary">
+                        Neuer Befund
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h1>{{ tnm.case.patient }}</h1>
+        <div class="row">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-header">Befund vom: </h5>
+                    <h6 class="card-body">{{ tnm.case.timestamp }}</h6>
+                    <h5 class="card-header">Tumor: </h5>
+                    <h6 class="card-body">{{ tnm.tumor }}</h6>
+                    <h5 class="card-header">Node: </h5>
+                    <h6 class="card-body">{{ tnm.nodes }}</h6>
+                    <h5 class="card-header">Metastases: </h5>
+                    <h6 class="card-body">{{ tnm.metastases }}</h6>
+                    <h5 class="card-header">Befundtext: </h5>
+                    <h6 class="card-body">{{ tnm.report_text }}</h6>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endblock %}

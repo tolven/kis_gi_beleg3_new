@@ -1,11 +1,10 @@
 import json
 
-from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
-from django.urls import reverse
 
-from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms, NewCaseForms
-from kis_pro.models import User, Patient, Doctor, Cases
+from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms, NewCaseForms, NewTNMForms
+from kis_pro.models import User, Patient, Doctor, Cases, TNM
 
 
 def kis_pro_index(request):
@@ -52,14 +51,41 @@ def kis_pro_newpatient(request):
         if form.is_valid():
             x = form.save(commit=False)
             x.save()
-            return redirect('kis_pro_index')
+            userid = x.pk
+            return redirect('kis_pro_detail', pk=userid)
     else:
         form = NewPatientForms()
         return render(request, 'kis_pro_newpatient.html', {'form': form})
 
 
+def kis_pro_new_tnm(request, pk):
+    if request.method == 'POST':
+        case = Cases.objects.get(pk=pk)
+        form = NewTNMForms(request.POST)
+        if form.is_valid():
+            x = form.save(commit=False)
+            x.case = case
+            x.save()
+            return redirect('kis_pro_pathology', case.doctor.pk)
+    else:
+        form = NewTNMForms()
+        return render(request, 'kis_pro_new_tnm.html', {'form': form})
+
+
 def kis_pro_deleteuser(request, pk):
     doc = Doctor.objects.get(pk=pk)
+    doc.delete()
+    return redirect('kis_pro_index')
+
+
+def kis_pro_deletepatient(request, pk):
+    doc = Patient.objects.get(pk=pk)
+    doc.delete()
+    return redirect('kis_pro_registration')
+
+
+def kis_pro_deleteregistration(request, pk):
+    doc = User.objects.get(pk=pk)
     doc.delete()
     return redirect('kis_pro_index')
 
@@ -79,6 +105,21 @@ def kis_pro_pathology(request, pk):
         'cases': cases
     }
     return render(request, 'kis_pro_pathology.html', context)
+
+
+def kis_pro_pathology_meet(request, pk, caseid):
+    try:
+        tnm = TNM.objects.get(case_id=caseid)
+        context = {
+            'tnm': tnm
+        }
+        return render(request, 'kis_pro_pathology_meet.html', context)
+    except ObjectDoesNotExist:
+        cases = Cases.objects.get(pk=caseid)
+        context = {
+            'cases': cases
+        }
+        return render(request, 'kis_pro_pathology_meet.html', context)
 
 
 def kis_pro_radiology(request, pk):

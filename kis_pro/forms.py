@@ -1,7 +1,7 @@
 from django import forms
 
 from kis_pro.fields import UserModelChoiceField
-from kis_pro.models import User, Patient, Doctor, Role, Cases
+from kis_pro.models import User, Patient, Doctor, Role, Cases, TNM
 
 
 class DateInput(forms.DateInput):
@@ -123,3 +123,42 @@ class NewCaseForms(forms.ModelForm):
                 }
             )
         }
+
+
+class NewTNMForms(forms.ModelForm):
+    class Meta:
+        model = TNM
+        fields = ['nodes', 'tumor', 'metastases', 'report_text']
+        exclude = ['case']
+        tumors = {
+            ('TX', 'TX'),
+            ('T0', 'T0'),
+            ('Tis', 'Tis'),
+            ('T1', 'T1'),
+            ('T2', 'T2'),
+            ('T3', 'T3'),
+            ('T4', 'T4')
+        }
+        nodes = {
+            ('NX', 'NX'),
+            ('N0', 'N0'),
+            ('N1', 'N1'),
+            ('N2', 'N2'),
+            ('N3', 'N3')
+        }
+        metas = {
+            ('M0', 'M0'),
+            ('M1', 'M1')
+        }
+        widgets = {
+            'nodes': forms.Select(
+                choices=nodes
+            ),
+            'tumor': forms.Select(
+                choices=tumors
+            ),
+            'metastases': forms.Select(
+                choices=metas
+            )
+        }
+

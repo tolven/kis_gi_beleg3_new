@@ -1,0 +1,30 @@
+[
+  {
+    "model": "kis_pro.role",
+    "id": 1,
+    "fields": {
+      "name": "registration"
+    }
+  },
+  {
+    "model": "kis_pro.role",
+    "id": 2,
+    "fields": {
+      "name": "pathology"
+    }
+  },
+  {
+    "model": "kis_pro.role",
+    "id": 3,
+    "fields": {
+      "name": "radiology"
+    }
+  },
+  {
+    "model": "kis_pro.role",
+    "id": 4,
+    "fields": {
+      "name": "surgery"
+    }
+  }
+]

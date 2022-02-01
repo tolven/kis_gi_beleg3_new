@@ -33,6 +33,9 @@ class Role(models.Model):
     def print_role_name(self):
         return self.name
 
+    class Meta:
+        managed = False
+
 
 class User(Person):
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
@@ -77,10 +80,20 @@ class Cases(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.patient.user_print() + ' ' + str(self.timestamp)
 
-class TNM(Cases):
+    def get_patient(self):
+        return self.patient
+
+
+class TNM(models.Model):
+    case = models.ForeignKey(Cases, on_delete=models.CASCADE)
     tumor = models.CharField(max_length=2)
     nodes = models.CharField(max_length=2)
     metastases = models.CharField(max_length=2)
     report_text = models.TextField(max_length=500)
+
+
+
 
