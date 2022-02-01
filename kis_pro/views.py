@@ -3,8 +3,8 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 
-from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms, NewCaseForms, NewTNMForms
-from kis_pro.models import User, Patient, Doctor, Cases, TNM
+from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms, NewCaseForms, NewTNMForms, NewSurgeryForms
+from kis_pro.models import User, Patient, Doctor, Cases, TNM, SurgeryData
 
 
 def kis_pro_index(request):
@@ -55,7 +55,7 @@ def kis_pro_newpatient(request):
             return redirect('kis_pro_detail', pk=userid)
     else:
         form = NewPatientForms()
-        return render(request, 'kis_pro_newpatient.html', {'form': form})
+        return render(request, 'registration/kis_pro_newpatient.html', {'form': form})
 
 
 def kis_pro_new_tnm(request, pk):
@@ -69,7 +69,21 @@ def kis_pro_new_tnm(request, pk):
             return redirect('kis_pro_pathology', case.doctor.pk)
     else:
         form = NewTNMForms()
-        return render(request, 'kis_pro_new_tnm.html', {'form': form})
+        return render(request, 'pathology/kis_pro_new_tnm.html', {'form': form})
+
+
+def kis_pro_new_surgery(request, pk):
+    if request.method == 'POST':
+        case = Cases.objects.get(pk=pk)
+        form = NewSurgeryForms(request.POST)
+        if form.is_valid():
+            x = form.save(commit=False)
+            x.case = case
+            x.save()
+            return redirect('kis_pro_surgery', case.doctor.pk)
+    else:
+        form = NewSurgeryForms()
+        return render(request, 'surgery/kis_pro_new_surgery.html', {'form': form})
 
 
 def kis_pro_deleteuser(request, pk):
@@ -95,7 +109,7 @@ def kis_pro_registration(request):
     context = {
         'kis_patient': patient
     }
-    return render(request, 'kis_pro_registration.html', context)
+    return render(request, 'registration/kis_pro_registration.html', context)
 
 
 def kis_pro_pathology(request, pk):
@@ -104,7 +118,7 @@ def kis_pro_pathology(request, pk):
     context = {
         'cases': cases
     }
-    return render(request, 'kis_pro_pathology.html', context)
+    return render(request, 'pathology/kis_pro_pathology.html', context)
 
 
 def kis_pro_pathology_meet(request, pk, caseid):
@@ -113,13 +127,13 @@ def kis_pro_pathology_meet(request, pk, caseid):
         context = {
             'tnm': tnm
         }
-        return render(request, 'kis_pro_pathology_meet.html', context)
+        return render(request, 'pathology/kis_pro_pathology_meet.html', context)
     except ObjectDoesNotExist:
         cases = Cases.objects.get(pk=caseid)
         context = {
             'cases': cases
         }
-        return render(request, 'kis_pro_pathology_meet.html', context)
+        return render(request, 'pathology/kis_pro_pathology_meet.html', context)
 
 
 def kis_pro_radiology(request, pk):
@@ -128,7 +142,7 @@ def kis_pro_radiology(request, pk):
     context = {
         'cases': cases
     }
-    return render(request, 'kis_pro_radiology.html', context)
+    return render(request, 'radiology/kis_pro_radiology.html', context)
 
 
 def kis_pro_surgery(request, pk):
@@ -137,7 +151,22 @@ def kis_pro_surgery(request, pk):
     context = {
         'cases': cases
     }
-    return render(request, 'kis_pro_surgery.html', context)
+    return render(request, 'surgery/kis_pro_surgery.html', context)
+
+
+def kis_pro_surgery_meet(request, pk, caseid):
+    try:
+        surgery = SurgeryData.objects.get(case_id=caseid)
+        context = {
+            'surgery': surgery
+        }
+        return render(request, 'surgery/kis_pro_surgery_meet.html', context)
+    except ObjectDoesNotExist:
+        cases = Cases.objects.get(pk=caseid)
+        context = {
+            'cases': cases
+        }
+        return render(request, 'surgery/kis_pro_surgery_meet.html', context)
 
 
 def kis_pro_newcase(request, pk):
@@ -156,4 +185,4 @@ def kis_pro_newcase(request, pk):
             'patient': patient,
             'form': form
         }
-        return render(request, 'kis_pro_newcase.html', context)
+        return render(request, 'registration/kis_pro_newcase.html', context)

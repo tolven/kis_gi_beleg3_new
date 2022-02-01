@@ -10,7 +10,7 @@
                     <h6 class="card-body">{{ case.patient }}</h6>
                     <h5 class="card-header">Termin am: </h5>
                     <h6 class="card-body">{{ case.timestamp }}</h6>
-                    <a href="#"
+                    <a href="{% url 'kis_pro_surgery_meet' case.doctor.pk case.pk %}"
                        class="btn btn-primary">
                         Auswählen
                     </a>

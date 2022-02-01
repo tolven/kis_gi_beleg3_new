@@ -6,11 +6,11 @@
             <div class="card mb-2">
                 <div class="card-body">
                     <h5 class="card-header">Noch kein Befund vorhanden! </h5>
-                    <a href="{% url 'kis_pro_new_tnm' cases.pk %}"
-                       class="btn btn-primary">
-                        Neuer Befund
-                    </a>
                 </div>
+                <a href="{% url 'kis_pro_new_tnm' cases.pk %}"
+                   class="btn btn-primary">
+                    Neuer Befund
+                </a>
             </div>
         </div>
     {% else %}

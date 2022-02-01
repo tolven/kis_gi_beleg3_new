@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block page_content %}
+    {% if cases is not None %}
+        <div class="row">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-header">Noch kein Befund vorhanden! </h5>
+                </div>
+                <a href="{% url 'kis_pro_new_surgery' cases.pk %}"
+                   class="btn btn-primary">
+                    Neuer Befund
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <h1>{{ surgery.case.patient }}</h1>
+        <div class="row">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-header">Befund vom: </h5>
+                    <h6 class="card-body">{{ surgery.case.timestamp }}</h6>
+                    <h5 class="card-header">Behandeltes Organ: </h5>
+                    <h6 class="card-body">{{ surgery.organ }}</h6>
+                    <h5 class="card-header">Entnommenes Gewebe: </h5>
+                    <h6 class="card-body">{{ surgery.tissue }}</h6>
+                    <h5 class="card-header">Befund: </h5>
+                    <h6 class="card-body">{{ surgery.report_text }}</h6>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+{% endblock %}

@@ -1,7 +1,6 @@
 from django import forms
 
-from kis_pro.fields import UserModelChoiceField
-from kis_pro.models import User, Patient, Doctor, Role, Cases, TNM
+from kis_pro.models import User, Patient, Doctor, Role, Cases, TNM, SurgeryData, RadioData
 
 
 class DateInput(forms.DateInput):
@@ -121,6 +120,11 @@ class NewCaseForms(forms.ModelForm):
                 attrs={
                     'class': 'input-group date'
                 }
+            ),
+            'doctor': forms.Select(
+                attrs={
+                    'class': 'form-select'
+                }
             )
         }
 
@@ -150,15 +154,71 @@ class NewTNMForms(forms.ModelForm):
             ('M0', 'M0'),
             ('M1', 'M1')
         }
+
         widgets = {
             'nodes': forms.Select(
-                choices=nodes
+                choices=nodes,
+                attrs={
+                    'class': 'form-select'
+                }
             ),
             'tumor': forms.Select(
-                choices=tumors
+                choices=tumors,
+                attrs={
+                    'class': 'form-select'
+                }
             ),
             'metastases': forms.Select(
-                choices=metas
+                choices=metas,
+                attrs={
+                    'class': 'form-select'
+                }
+            ),
+            'report_text': forms.Textarea(
+                attrs={
+                    'class': 'form-control'
+                }
             )
         }
 
+
+class NewSurgeryForms(forms.ModelForm):
+    class Meta:
+        model = SurgeryData
+        fields = ['tissue', 'organ', 'report_text']
+        exclude = ['case']
+
+        widgets = {
+            'tissue': forms.TextInput(
+                attrs={
+                    'class': "form-control",
+                    'type': "text"
+                }
+            ),
+            'organ': forms.TextInput(
+                attrs={
+                    'class': "form-control",
+                    'type': "text"
+                }
+            ),
+            'report_text': forms.Textarea(
+                attrs={
+                    'class': "form-control"
+                }
+            )
+        }
+
+
+class NewRadioForms(forms.ModelForm):
+    class Meta:
+        model = RadioData
+        fields = ['report_text']
+        exclude = ['case']
+
+        widgets = {
+            'report_text': forms.Textarea(
+                attrs={
+                    'class': "form-control"
+                }
+            )
+        }

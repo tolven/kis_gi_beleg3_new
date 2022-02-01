@@ -2,6 +2,7 @@ from datetime import date
 
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+import pydicom
 
 
 # Main Class Person
@@ -72,7 +73,8 @@ class Patient(Person):
 
     def getAge(self):
         today = date.today()
-        return today.year - self.birthdate.year - ((today.month, today.day) < (self.birthdate.month, self.birthdate.day))
+        return today.year - self.birthdate.year - (
+                    (today.month, today.day) < (self.birthdate.month, self.birthdate.day))
 
 
 class Cases(models.Model):
@@ -95,5 +97,21 @@ class TNM(models.Model):
     report_text = models.TextField(max_length=500)
 
 
+class SurgeryData(models.Model):
+    case = models.ForeignKey(Cases, on_delete=models.CASCADE)
+    organ = models.CharField(max_length=50)
+    tissue = models.CharField(max_length=50)
+    report_text = models.TextField(max_length=500)
 
 
+class RadioData(models.Model):
+    dataset = pydicom.dataset.Dataset()
+    case = models.ForeignKey(Cases, on_delete=models.CASCADE)
+    report_text = models.TextField(max_length=500)
+
+    def create_dicom_dataset(self):
+        self.dataset.patientid = self.case.patient.pk
+        self.dataset.patientname = self.case.patient.user_print()
+
+    def get_dicom_dataset(self):
+        return self.dataset
