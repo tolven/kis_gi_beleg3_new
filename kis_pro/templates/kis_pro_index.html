@@ -10,11 +10,11 @@
                     <p class="card-text">{{ user.role_to_name }}</p>
                     <a href="{% url 'kis_pro_registration' %}"
                        class="btn btn-primary">
-                        Select
+                        Wählen
                     </a>
                     <a href="{% url 'kis_pro_deleteregistration' user.pk %}"
                        class="btn btn-danger">
-                        Delete
+                        Löschen
                     </a>
                 </div>
             </div>
@@ -29,11 +29,11 @@
                     <p class="card-text">{{ doc.role_to_name }}</p>
                     <a href="{% url doc.role_to_url doc.pk %}"
                        class="btn btn-primary">
-                        Select
+                        Wählen
                     </a>
                     <a href="{% url 'kis_pro_deleteuser' doc.pk %}"
                        class="btn btn-danger">
-                        Delete
+                        Löschen
                     </a>
                 </div>
             </div>
@@ -43,11 +43,11 @@
     <div class="col">
         <div class="card mb-2">
             <div class="card-body">
-                <h5 class="card-title">New User</h5>
-                <p>Create a new user!</p>
+                <h5 class="card-title">Neuer Nutzer</h5>
+                <p>Neuen Nutzer erstellen!</p>
                 <a href="{% url 'kis_pro_newuser' %}"
                    class="btn btn-primary">
-                    Add
+                    Hinzufügen
                 </a>
             </div>
         </div>
