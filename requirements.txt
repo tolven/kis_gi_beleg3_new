@@ -1,3 +1,4 @@
+cm-rgb
 dj-database-url
 django-setup-cli
 flask
@@ -10,7 +11,6 @@ protobuf
 psycopg2-binary
 pycairo
 pydicom
-pygobject
 pywhatkit
 torch
 whitenoise
