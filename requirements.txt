@@ -49,7 +49,7 @@ Pygments==2.9.0
 PyGObject==3.42.0
 PyMsgBox==1.0.9
 pyobjc==8.0
-pyobjc-core==8.0
+pyobjc-core
 pyobjc-framework-Accessibility==8.0
 pyobjc-framework-Accounts==8.0
 pyobjc-framework-AddressBook==8.0
