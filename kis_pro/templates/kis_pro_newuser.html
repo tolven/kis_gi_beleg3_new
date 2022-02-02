@@ -5,21 +5,21 @@
 
     <div class="card">
         <div class="card-header">
-            New Personal
+            Neuer Mitarbeiter
         </div>
         <div class="card-body">
             <form method="post">
                 {% csrf_token %}
-                <h5>Title</h5>
+                <h5>Titel</h5>
                 {{ form.title }}
-                <h5>Firstname</h5>
+                <h5>Vorname</h5>
                 {{ form.firstname }}
-                <h5>Lastname</h5>
+                <h5>Nachname</h5>
                 {{ form.lastname }}
-                <h5>Role</h5>
+                <h5>Rolle</h5>
                 {{ form.role }}
                 <button class="btn btn-primary"
-                        type="submit">Submit
+                        type="submit">Speichern
                 </button>
             </form>
         </div>
