@@ -3,8 +3,9 @@ import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 
-from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms, NewCaseForms, NewTNMForms, NewSurgeryForms
-from kis_pro.models import User, Patient, Doctor, Cases, TNM, SurgeryData
+from kis_pro.forms import NewUserForms, NewPatientForms, NewDocForms, NewCaseForms, NewTNMForms, NewSurgeryForms, \
+    NewRadioForms
+from kis_pro.models import User, Patient, Doctor, Cases, TNM, SurgeryData, RadioData
 
 
 def kis_pro_index(request):
@@ -86,6 +87,20 @@ def kis_pro_new_surgery(request, pk):
         return render(request, 'surgery/kis_pro_new_surgery.html', {'form': form})
 
 
+def kis_pro_new_radio(request, pk):
+    if request.method == 'POST':
+        case = Cases.objects.get(pk=pk)
+        form = NewRadioForms(request.POST)
+        if form.is_valid():
+            x = form.save(commit=False)
+            x.case = case
+            x.save()
+            return redirect('kis_pro_radiology', case.doctor.pk)
+    else:
+        form = NewRadioForms()
+        return render(request, 'radiology/kis_pro_new_radiology.html', {'form': form})
+
+
 def kis_pro_deleteuser(request, pk):
     doc = Doctor.objects.get(pk=pk)
     doc.delete()
@@ -143,6 +158,22 @@ def kis_pro_radiology(request, pk):
         'cases': cases
     }
     return render(request, 'radiology/kis_pro_radiology.html', context)
+
+
+def kis_pro_radiology_meet(request, pk, caseid):
+    try:
+        radio = RadioData.objects.get(case_id=caseid)
+        radio.create_dicom_dataset()
+        context = {
+            'radio': radio
+        }
+        return render(request, 'radiology/kis_pro_radiology_meet.html', context)
+    except ObjectDoesNotExist:
+        cases = Cases.objects.get(pk=caseid)
+        context = {
+            'cases': cases
+        }
+        return render(request, 'radiology/kis_pro_radiology_meet.html', context)
 
 
 def kis_pro_surgery(request, pk):

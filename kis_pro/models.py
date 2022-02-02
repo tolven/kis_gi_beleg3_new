@@ -74,7 +74,7 @@ class Patient(Person):
     def getAge(self):
         today = date.today()
         return today.year - self.birthdate.year - (
-                    (today.month, today.day) < (self.birthdate.month, self.birthdate.day))
+                (today.month, today.day) < (self.birthdate.month, self.birthdate.day))
 
 
 class Cases(models.Model):
@@ -110,8 +110,9 @@ class RadioData(models.Model):
     report_text = models.TextField(max_length=500)
 
     def create_dicom_dataset(self):
-        self.dataset.patientid = self.case.patient.pk
-        self.dataset.patientname = self.case.patient.user_print()
-
-    def get_dicom_dataset(self):
+        self.dataset.PatientID = self.case.patient.pk
+        self.dataset.PatientsName = self.case.patient.user_print()
         return self.dataset
+
+    def dicom_data_to_string(self):
+        return str(self.dataset.PatientID) + ' ' + str(self.dataset.PatientsName)

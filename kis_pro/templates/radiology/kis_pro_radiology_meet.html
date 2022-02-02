@@ -7,27 +7,22 @@
                 <div class="card-body">
                     <h5 class="card-header">Noch kein Befund vorhanden! </h5>
                 </div>
-                <a href="{% url 'kis_pro_new_tnm' cases.pk %}"
+                <a href="{% url 'kis_pro_new_radio' cases.pk %}"
                    class="btn btn-primary">
                     Neuer Befund
                 </a>
             </div>
         </div>
     {% else %}
-        <h1>{{ tnm.case.patient }}</h1>
+        <h1>{{ radio.case.patient }}</h1>
         <div class="row">
             <div class="card mb-2">
                 <div class="card-body">
-                    <h5 class="card-header">Befund vom: </h5>
-                    <h6 class="card-body">{{ tnm.case.timestamp }}</h6>
-                    <h5 class="card-header">Tumor: </h5>
-                    <h6 class="card-body">{{ tnm.tumor }}</h6>
-                    <h5 class="card-header">Node: </h5>
-                    <h6 class="card-body">{{ tnm.nodes }}</h6>
-                    <h5 class="card-header">Metastases: </h5>
-                    <h6 class="card-body">{{ tnm.metastases }}</h6>
                     <h5 class="card-header">Befundtext: </h5>
-                    <h6 class="card-body">{{ tnm.report_text }}</h6>
+                    <h6 class="card-body">{{ radio.report_text }}</h6>
+                    <h5 class="card-header">Radiologischer Datensatz: </h5>
+                    <p>{{ radio.create_dicom_dataset }}</p>
+                    <p>{{ radio.dicom_data_to_string }}</p>
                 </div>
             </div>
         </div>

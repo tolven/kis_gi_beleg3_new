@@ -6,10 +6,6 @@
             {% csrf_token %}
             <div class="card mb-2">
                 <div class="card-body">
-                    <h5 class="card-title">Organ:</h5>
-                    {{ form.organ }}
-                    <h5 class="card-title">Gewebe:</h5>
-                    {{ form.tissue }}
                     <h5 class="card-title">Befund:</h5>
                     {{ form.report_text }}
                 </div>
@@ -17,8 +13,6 @@
                         type="submit">Speichern
                 </button>
             </div>
-
-
         </form>
     </div>
 {% endblock %}
